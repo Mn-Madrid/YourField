@@ -25,7 +25,8 @@ local Player =
     {0, 26, 26, 26, 26, 26, 26, 0, 2, 3, 4, 3, 4, 2, 3, 4},
     {0, 9, 11, 4, 3, 2, 4, 0, 26, 26, 26, 26, 26, 26, 26, 26}
   }),
-  walkableTiles = {16, 24, 30, 32}
+  walkableTiles = {26, 24, 30, 32},
+  canMove = true
 }
 
 function Player:move(direction)
@@ -52,43 +53,43 @@ function Player:getTgY()
 end
 
 function Player:update(dt)
-  -- Collision handling
-  for i = 1, #self.walkableTiles do
-    local mike = self.walkableTiles[i]
+  -- Debug
+  print(self.map.map
+    [(self.targetY / 16) + 1]
+    [(self.targetX / 16) + 1] )
 
-    if self.map.map[self.targetX / 16][self.targetY / 16] == mike then
-      self.targetX, self.targetY = self.oldX, self.oldY
-    end
-
-  end
+  -- Collision check
+  
   -- Movement (Input)
-  if
-  (love.keyboard.isDown("right")) and 
-  (self.X == self.targetX) and
-  (self.Y == self.targetY)
-  then
-    self:move(1)
-  end
-  if 
-  (love.keyboard.isDown("left")) and 
-  (self.X == self.targetX) and
-  (self.Y == self.targetY)
-  then
-    self:move(2)
-  end
-  if 
-  (love.keyboard.isDown("up")) and 
-  (self.Y == self.targetY) and
-  (self.X == self.targetX)
-  then
-    self:move(4)
-  end
-  if 
-  (love.keyboard.isDown("down")) and 
-  (self.Y == self.targetY) and
-  (self.X == self.targetX)
-  then
-    self:move(3)
+  if self.canMove == true then
+    if
+    (love.keyboard.isDown("right")) and 
+    (self.X == self.targetX) and
+    (self.Y == self.targetY)
+    then
+      self:move(1)
+    end
+    if 
+    (love.keyboard.isDown("left")) and 
+    (self.X == self.targetX) and
+    (self.Y == self.targetY)
+    then
+      self:move(2)
+    end
+    if 
+    (love.keyboard.isDown("up")) and 
+    (self.Y == self.targetY) and
+    (self.X == self.targetX)
+    then
+      self:move(4)
+    end
+    if 
+    (love.keyboard.isDown("down")) and 
+    (self.Y == self.targetY) and
+    (self.X == self.targetX)
+    then
+      self:move(3)
+    end
   end
 
   -- Movement (Animation)
@@ -112,6 +113,7 @@ function Player:update(dt)
     self.anim:setAnimation(2)
     self.anim:is_Playing(true)
   end
+
     -- Animation check
   if 
   (self.X == self.targetX) and 
@@ -119,7 +121,8 @@ function Player:update(dt)
   then
     self.anim:is_Playing(false)
     self.anim:goToFrame(1)
-    self.oldX, self.oldY = self.X, self.Y
+    self.oldX = self.X
+    self.oldY = self.Y
   end
 
   -- General check
