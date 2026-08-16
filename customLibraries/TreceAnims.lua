@@ -28,7 +28,6 @@ end
 
 function class_Animator:setAnimation(number)
   self.cAnim = number
-  self.cFrame = 1
 end
 
 -- Inner functions
