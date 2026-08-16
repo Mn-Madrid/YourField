@@ -103,18 +103,21 @@ function Player:update(dt)
   end
 
   -- Collision check
+  self.canMove = false
   for i = 1, #self.walkableTiles do
     if self.map.map
     [(self.targetY / 16) + 1]
     [(self.targetX / 16) + 1] == self.walkableTiles[i] then
       self.canMove = true
       break
-    else
-      self.anim:is_Playing(false)
-      self.targetX, self.targetY = self.oldX, self.oldY
-      self.X, self.Y = self.oldX, self.oldY
     end
   end
+  if not self.canMove then
+    self.anim:is_Playing(false)
+    self.targetX, self.targetY = self.oldX, self.oldY
+    self.X, self.Y = self.oldX, self.oldY
+  end
+
   -- General check
   self.anim.X = self.X
   self.anim.Y = self.Y

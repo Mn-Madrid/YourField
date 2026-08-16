@@ -18,7 +18,7 @@ local map01 = GLT.Tiles.new("content/tileSets/zebra-set-test.png", 10, 4,
   {36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 16},
 })
 
-local Player = GOT.player.new(5*16, 5*16, map01, {40, 40, 16, 20})
+local Player = GOT.player.new(5*16, 5*16, map01, {12, 40, 16, 20, 36, 35, 39})
 
 function FieldTest:load()
 
