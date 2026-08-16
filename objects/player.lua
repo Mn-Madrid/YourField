@@ -8,23 +8,7 @@ local Player =
   targetY = (16*7),
   oldX = (16*4),
   oldY = (16*7),
-  map = GLT.Tiles.new("content/tileSets/zebra-set-test.png", 10, 4, 
-  {
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
-    {0, 0, 0, 0, 0, 0, 0, 0, 21, 22, 22, 22, 22, 22, 22, 23,},
-    {0, 0, 0, 0, 0, 0, 0, 0, 29, 30, 30, 30, 30, 30, 30, 31,},
-    {0, 21, 22, 22, 22, 22, 23, 0, 2, 3, 4, 3, 4, 2, 3, 4,},
-    {0, 25, 26, 26, 26, 26, 27, 0, 26, 26, 26, 26, 26, 26, 26, 26,},
-    {0, 29, 30, 30, 30, 30, 31, 0, 2, 3, 4, 3, 4, 2, 3, 4,},
-    {0, 9, 11, 3, 2, 4, 2, 0, 26, 26, 26, 26, 26, 26, 26, 26,},
-    {0, 26, 26, 26, 26, 26, 26, 0, 2, 3, 4, 3, 4, 2, 3, 4,},
-    {0, 9, 11, 2, 4, 3, 2, 0, 26, 26, 26, 26, 26, 26, 26, 26,},
-    {0, 26, 26, 26, 26, 26, 26, 0, 2, 3, 4, 3, 4, 2, 3, 4},
-    {0, 9, 11, 4, 3, 2, 4, 0, 26, 26, 26, 26, 26, 26, 26, 26}
-  }),
+  map = GLT.Tiles.new("content/tileSets/zebra-set-test.png", 10, 4, {}),
   walkableTiles = {26, 24, 30, 32},
   canMove = true
 }
@@ -53,12 +37,19 @@ function Player:getTgY()
 end
 
 function Player:update(dt)
-  -- Debug
-  print(self.map.map
-    [(self.targetY / 16) + 1]
-    [(self.targetX / 16) + 1] )
-
   -- Collision check
+  for i = 1, #self.walkableTiles do
+    if self.map.map
+    [(self.targetY / 16) + 1]
+    [(self.targetX / 16) + 1] == self.walkableTiles[i] then
+      self.canMove = true
+      break
+    else
+      self.anim:is_Playing(false)
+      self.targetX, self.targetY = self.oldX, self.oldY
+      self.X, self.Y = self.oldX, self.oldY
+    end
+  end
   
   -- Movement (Input)
   if self.canMove == true then
