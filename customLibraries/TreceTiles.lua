@@ -27,7 +27,9 @@ end
 function class_Tilemaker:draw()
   for i = 1, #self.map do
     for j = 1, #self.map[i] do
-      love.graphics.draw(self.image, self.set[self.map[i][j]], ((j - 1) * 16), ((i - 1) * 16) )
+      if self.set[self.map[i][j]] ~= nil then
+        love.graphics.draw(self.image, self.set[self.map[i][j]], ((j - 1) * 16), ((i - 1) * 16) )
+      end
     end
   end
 end
