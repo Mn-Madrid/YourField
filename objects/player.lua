@@ -9,7 +9,7 @@ local Player =
   oldX = (16*4),
   oldY = (16*7),
   map = GLT.Tiles.new("content/tileSets/zebra-set-test.png", 10, 4, {}),
-  walkableTiles = {26, 24, 30, 32},
+  walkableTiles = {12, 40, 16, 20},
   canMove = true
 }
 
@@ -37,20 +37,6 @@ function Player:getTgY()
 end
 
 function Player:update(dt)
-  -- Collision check
-  for i = 1, #self.walkableTiles do
-    if self.map.map
-    [(self.targetY / 16) + 1]
-    [(self.targetX / 16) + 1] == self.walkableTiles[i] then
-      self.canMove = true
-      break
-    else
-      self.anim:is_Playing(false)
-      self.targetX, self.targetY = self.oldX, self.oldY
-      self.X, self.Y = self.oldX, self.oldY
-    end
-  end
-  
   -- Movement (Input)
   if self.canMove == true then
     if
@@ -116,6 +102,19 @@ function Player:update(dt)
     self.oldY = self.Y
   end
 
+  -- Collision check
+  for i = 1, #self.walkableTiles do
+    if self.map.map
+    [(self.targetY / 16) + 1]
+    [(self.targetX / 16) + 1] == self.walkableTiles[i] then
+      self.canMove = true
+      break
+    else
+      self.anim:is_Playing(false)
+      self.targetX, self.targetY = self.oldX, self.oldY
+      self.X, self.Y = self.oldX, self.oldY
+    end
+  end
   -- General check
   self.anim.X = self.X
   self.anim.Y = self.Y
@@ -129,5 +128,29 @@ end
 function Player:draw()
   self.anim:draw()
 end
+
+local metaPlayer = {}
+metaPlayer.__index = Player
+
+-- OOP
+
+function Player.new(X, Y, map, walkableTiles)
+  local instance = setmetatable({}, metaPlayer)
+
+  instance.X = X
+  instance.Y = Y
+  instance.targetX = X
+  instance.targetY = Y
+  instance.oldX = X
+  instance.oldY = Y
+  instance.anim = GLT.Animation.new("content/characters/player.png", 
+  4, 2, 2, 0, 0, 0, 8, 16, 16)
+  instance.map = map
+  instance.walkableTiles = walkableTiles
+  instance.canMove = true
+
+  return instance
+end
+
 
 return Player
