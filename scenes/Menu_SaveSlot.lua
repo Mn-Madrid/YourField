@@ -1,59 +1,57 @@
 local menu = {}
 
-local cluster
-local pointer = GLT.Pointer.new(217, 45)
-local fade
+local content = 
+{
+  background = love.graphics.newImage("content/System/menu_slots/Mountain.png"),
+}
 
-function menu:load()
-  fade = GLT.Fade.new("sceneIn", 0, 0, 0, 4)
-  cluster = 
+local slotTable = {}
+
+for i = 1, 3 do
+  slotTable[i] =
   {
-    back = love.graphics.newImage("content/System/menu_slots/Mountain.png"),
-    sys = love.graphics.newImage("content/System/menu_slots/Slot_System.png"),
+    image = love.graphics.newImage("content/System/menu_slots/Slot.png"),
+    X = 127,
+    Y = 20,
+    oX = love.graphics.newImage("content/System/menu_slots/Slot.png"):getWidth() / 2,
+    oY = love.graphics.newImage("content/System/menu_slots/Slot.png"):getHeight() / 2,
   }
 end
 
-function menu:update(dt)
-  fade:update(dt)
-  pointer:update(dt)
+function menu:load()
+  
+end
 
-  -- Pointer logic
-  if pointer:getValue() == 0 then
-    pointer:setPos(217, 45)
-  elseif  pointer:getValue() == 1 then
-    pointer:setPos(217, 52)
-  elseif  pointer:getValue() == 2 then
-    pointer:setPos(217, 93)
-  elseif  pointer:getValue() == 3 then
-    pointer:setPos(217, 100)
-  elseif  pointer:getValue() == 4 then
-    pointer:setPos(217, 141)
-  elseif  pointer:getValue() == 5 then
-    pointer:setPos(217, 147)
-  end
+function menu:update(dt)
   
 end
 
 function menu.keypressed(key)
-  -- Positions of the pointer
-  if key == "up" and pointer:getValue() > 0 then
-    pointer:setValue(math.max(0, pointer:getValue() - 1))
-  elseif key == "down" and pointer:getValue() < 5 then
-    pointer:setValue(math.min(5, pointer:getValue() + 1))
-  end
 
-  -- Returning
-  if (key == "x") or (key == "lshift") or (key == "rshift") then
-    switchScene(sceneTree.MMenu)
-  end
 end
 
 function menu:draw()
-  love.graphics.draw(cluster.back)
-  love.graphics.draw(cluster.sys)
-  pointer:draw()
-  fade:draw()
-end
+  
+  love.graphics.draw(content.background)
+  for i = 1, 3 do
+    love.graphics.draw(slotTable[i].image, slotTable[i].X, slotTable[i].Y + (i * (slotTable[i].image:getHeight() + 10)), 
+    0, 1, 1, slotTable[i].oX, slotTable[i].oY)
 
+    love.graphics.print((GLT.localizator.slotMenu[1].. i), 
+    (slotTable[i].X - 89), 
+    (slotTable[i].Y + (i * (slotTable[i].image:getHeight() + 10))) - 11)
+
+    love.graphics.printf((GLT.localizator.slotMenu[2]), 
+    (slotTable[i].X - 10), 
+    (slotTable[i].Y + (i * (slotTable[i].image:getHeight() + 10))) - 11,
+    100,
+    "right")
+    love.graphics.printf((GLT.localizator.slotMenu[3]), 
+    (slotTable[i].X - 10), 
+    (slotTable[i].Y + (i * (slotTable[i].image:getHeight() + 10))),
+    100,
+    "right")
+  end
+end
 
 return menu

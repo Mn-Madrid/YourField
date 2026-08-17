@@ -10,7 +10,7 @@ local mainUtils =
 -- General functions
 function love.load()
   require("utf8")
-  local font = love.graphics.newImageFont("content/Fonts/FontMain.png", " AÁBCDEÉFGHIÍJKLMNÑOÓPQRSTÚUVWXYZ.,!¡?¿\"\"+-", 1)
+  local font = love.graphics.newImageFont("content/Fonts/FontMain.png", " AÁBCDEÉFGHIÍJKLMNÑOÓPQRSTÚUVWXYZ.,!¡?¿()\"+-1234567890", 1)
   love.graphics.setFont(font)
   love.graphics.setDefaultFilter("nearest", "nearest")
   mainUtils.push:setupScreen(256, 224, (256 * 2), (224 * 2), {fullscreen = false})

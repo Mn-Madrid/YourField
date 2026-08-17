@@ -1,10 +1,16 @@
 local loc = 
 {
-  menu = 
+  menuMain = 
   {
     "NEW GAME",
-    "LOAD FILE",
+    "LOAD GAME",
     "EXIT GAME"
+  },
+  slotMenu = 
+  {
+    "FILE ",
+    "CONTINUE",
+    "DELETE"
   }
 }
 
