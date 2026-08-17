@@ -1,7 +1,7 @@
 local gameState = {}
 
 -- Dependent variables
-gameState.currentScene = sceneTree.TField
+gameState.currentScene = sceneTree.MMenu
 
 -- General functions
 function gameState:load()

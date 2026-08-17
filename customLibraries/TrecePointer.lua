@@ -6,7 +6,8 @@ local class_Pointer =
   offset = 0,
   newX = 0,
   value = 0,
-  clock = 0
+  clock = 0,
+  size = 1
 }
 
 -- General functions
@@ -19,16 +20,24 @@ function class_Pointer:update(dt)
     self.clock = 0
   end
 
-  if self.clock < 1 then
-    self.offset = 1
-  else
-    self.offset = 0
+  if self.size == 1 then
+    if self.clock < 1 then
+      self.offset = 1
+    else
+      self.offset = 0
+    end
+  elseif self.size == -1 then
+    if self.clock < 1 then
+      self.offset = -1
+    else
+      self.offset = 0
+    end
   end
 
 end
 
 function class_Pointer:draw()
-  love.graphics.draw(self.image, self.newX, self.Y)
+  love.graphics.draw(self.image, self.newX, self.Y, 0, self.size, 1)
 end
 
 -- Getters and setters
@@ -62,11 +71,12 @@ end
 local metaClass = {}
 metaClass.__index = class_Pointer
 
-function class_Pointer.new(X, Y)
+function class_Pointer.new(X, Y, size)
   local instance = setmetatable({}, metaClass)
 
   instance.X = X
   instance.Y = Y
+  instance.size = size
 
   return instance
 end

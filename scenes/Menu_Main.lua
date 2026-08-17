@@ -5,14 +5,13 @@ local pointer
 local fade
 
 function MainMenu:load()
-  pointer = GLT.Pointer.new(152, 149)
+  pointer = GLT.Pointer.new(152, 149, -1)
   fade = GLT.Fade.new("sceneIn", 0, 0, 0, 4)
 
   cluster =
   {
     logo = love.graphics.newImage("content/System/menu_main/logo.png"),
     tb = love.graphics.newImage("content/System/menu_main/miniTB.png"),
-    name = love.graphics.newImage("content/System/menu_main/myName.png"),
     back = love.graphics.newImage("content/System/menu_main/MMback.png")
   }
 
@@ -23,13 +22,13 @@ function MainMenu:update(dt)
   pointer:update(dt)
 
   if pointer:getValue() == 0 then
-    pointer:setPos(152, 149)
+    pointer:setPos(98, 149)
 
   elseif pointer:getValue()  == 1 then
-    pointer:setPos(152, 156)
+    pointer:setPos(98, 156)
 
   elseif pointer:getValue()  == 2 then
-    pointer:setPos(152, 163)
+    pointer:setPos(98, 163)
 
   end
 
@@ -60,9 +59,11 @@ end
 
 function MainMenu:draw()
   love.graphics.draw(cluster.back)
-  love.graphics.draw(cluster.logo, 48, 48)
+  love.graphics.draw(cluster.logo, 48, 32)
   love.graphics.draw(cluster.tb, 96, 144)
-  love.graphics.draw(cluster.name, 96, 208)
+  love.graphics.print(GLT.localizator.menu[1], 102, 147)
+  love.graphics.print(GLT.localizator.menu[2], 102, 154)
+  love.graphics.print(GLT.localizator.menu[3], 102, 161)
   pointer:draw()
   fade:draw()
 

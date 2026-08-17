@@ -5,5 +5,6 @@ _G.GLT =
   YSort = require("customLibraries.TreceYSort"),
   Pointer = require ("customLibraries.TrecePointer"),
   Animation = require("customLibraries.TreceAnims"),
-  Tiles = require("customLibraries.TreceTiles")
+  Tiles = require("customLibraries.TreceTiles"),
+  localizator = require("myCoreGameUtils.localizator"),
 }
