@@ -10,6 +10,33 @@ local class_Pointer =
   size = 1
 }
 
+-- Getters and setters
+function class_Pointer:getValue()
+  return self.value
+end
+
+function class_Pointer:setValue(value)
+  self.value = value
+  self.offset = 0
+  self.clock = 1
+end
+
+function class_Pointer:getPos()
+  return self.X, self.Y
+end
+
+function class_Pointer:setPos(X, Y)
+  self.X, self.Y = X, Y
+end
+
+function class_Pointer:getClock()
+  return self.clock
+end
+
+function class_Pointer:setClock(value)
+  self.clock = value
+end
+
 -- General functions
 function class_Pointer:update(dt)
 
@@ -38,33 +65,6 @@ end
 
 function class_Pointer:draw()
   love.graphics.draw(self.image, self.newX, self.Y, 0, self.size, 1)
-end
-
--- Getters and setters
-function class_Pointer:getValue()
-  return self.value
-end
-
-function class_Pointer:setValue(value)
-  self.value = value
-  self.offset = 0
-  self.clock = 1
-end
-
-function class_Pointer:getPos()
-  return self.X, self.Y
-end
-
-function class_Pointer:setPos(X, Y)
-  self.X, self.Y = X, Y
-end
-
-function class_Pointer:getClock()
-  return self.clock
-end
-
-function class_Pointer:setClock(value)
-  self.clock = value
 end
 
 -- OOP
