@@ -38,16 +38,20 @@ function menu:load()
 end
 
 function menu:update(dt)
-  if pointer:getValue() == 0 then
-    pointer:setPos(PointPositions[2].X, PointPositions[3].Y)
+  for i = 1, #PointPositions do
+    if pointer:getValue() == i - 1 then
+      pointer:setPos(PointPositions[i].X, PointPositions[i].Y - 4 )
+    end
   end
   pointer:update(dt)
 end
 
 function menu.keypressed(key)
   if key == "up" and pointer:getValue() > 0 then
+    pointer:setValue(math.max(0, pointer:getValue() - 1))
   end
   if key == "down" and pointer:getValue() < 2 then
+    pointer:setValue(math.min(2, pointer:getValue() + 1))
   end
 
   if 
@@ -71,18 +75,18 @@ function menu:draw()
 
     -- File indicator
     love.graphics.print((GLT.localizator.slotMenu[1].. i), 
-    slotTable[i].X - 85,
-    slotTable[i].Y
+    SlotPositions[i].X - 90,
+    SlotPositions[i].Y - 12
     )
-    -- Buttons
+     -- Buttons
     love.graphics.printf((GLT.localizator.slotMenu[2]), 
-    (slotTable[i].X - 10), 
-    (slotTable[i].Y + (i * (slotTable[i].image:getHeight() + 7))) - 11,
+    (SlotPositions[i].X - 10), 
+    (SlotPositions[i].Y + (i * (slotTable[i].image:getHeight() + 7))) - 11,
     100,
     "right")
     love.graphics.printf((GLT.localizator.slotMenu[3]), 
-    (slotTable[i].X - 10), 
-    (slotTable[i].Y + (i * (slotTable[i].image:getHeight() + 7))),
+    (SlotPositions[i].X - 10), 
+    (SlotPositions[i].Y + (i * (slotTable[i].image:getHeight() + 7))),
     100,
     "right")
   end
