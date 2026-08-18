@@ -1,17 +1,18 @@
 local menu = {}
 
 local background
-local slotTable = {}
+local frameContainer = {}
 local pointer = GLT.Pointer.new(10, 10, 1)
-local PointPositions
-local TablePositions
+local LUT_Pointer
+local LUT_Slots
+local location = 0
 
 function menu:load()
   background = love.graphics.newImage("content/System/menu_slots/Mountain.png")
 
   -- Adding the slot frames
   for i = 1, 3 do
-    slotTable[i] =
+    frameContainer[i] =
     {
       image = love.graphics.newImage("content/System/menu_slots/Slot.png"),
       X = 127,
@@ -22,14 +23,20 @@ function menu:load()
   end
 
   -- Lookup tables
-  PointPositions = 
+  LUT_Pointer = 
   {
     {X = 14 * 16, Y = 8 * 8 - 8},
     {X = 14 * 16, Y = 13 * 8 - 8},
     {X = 14 * 16, Y = 18 * 8 - 8},
+    {X = 14 * 16 -4, Y = 8 * 8 - 12},
+    {X = 14 * 16 -4, Y = 8 * 8 - 2},
+    {X = 14 * 16 -4, Y = 13 * 8 - 12},
+    {X = 14 * 16 -4, Y = 13 * 8 - 2},
+    {X = 14 * 16 -4, Y = 18 * 8 - 12},
+    {X = 14 * 16 -4, Y = 18 * 8 - 2},
   }
 
-  SlotPositions = 
+  LUT_Slots = 
   {
     {X = 8 * 16, Y = 8 * 8 - 8},
     {X = 8 * 16, Y = 13 * 8 - 8},
@@ -38,26 +45,94 @@ function menu:load()
 end
 
 function menu:update(dt)
-  for i = 1, #PointPositions do
+  for i = 1, #LUT_Pointer do
     if pointer:getValue() == i - 1 then
-      pointer:setPos(PointPositions[i].X, PointPositions[i].Y - 4 )
+      pointer:setPos(LUT_Pointer[i].X, LUT_Pointer[i].Y - 4 )
     end
   end
   pointer:update(dt)
 end
 
 function menu.keypressed(key)
-  if key == "up" and pointer:getValue() > 0 then
-    pointer:setValue(math.max(0, pointer:getValue() - 1))
-  end
-  if key == "down" and pointer:getValue() < 2 then
-    pointer:setValue(math.min(2, pointer:getValue() + 1))
+
+  -- Move between options
+  if location == 0 then
+    if key == "up" and pointer:getValue() > 0 then
+      pointer:setValue(math.max(0, pointer:getValue() - 1))
+    end
+    if (key == "down" and pointer:getValue() < 2) then
+      pointer:setValue(math.min(2, pointer:getValue() + 1))
+    end
+  elseif location == 1 then
+
+    if key == "up" and pointer:getValue() > 3 then
+      pointer:setValue(math.max(2, pointer:getValue() - 1))
+    end
+    if (key == "down" and pointer:getValue() < 4) then
+      pointer:setValue(math.min(4, pointer:getValue() + 1))
+    end
+
+    if (key == "x"  or key == "rshift" or key == "lshift")
+    then
+      pointer:setValue(0)
+      location = 0
+      return
+    end
+
+  elseif location == 2 then
+
+    if key == "up" and pointer:getValue() > 5 then
+      pointer:setValue(math.max(5, pointer:getValue() - 1))
+    end
+    if (key == "down" and pointer:getValue() < 6) then
+      pointer:setValue(math.min(6, pointer:getValue() + 1))
+    end
+
+    if (key == "x"  or key == "rshift" or key == "lshift")
+    then
+      pointer:setValue(1)
+      location = 0
+      return
+    end
+
+  elseif location == 3 then
+
+    if key == "up" and pointer:getValue() > 7 then
+      pointer:setValue(math.max(7, pointer:getValue() - 1))
+    end
+    if (key == "down" and pointer:getValue() < 8) then
+      pointer:setValue(math.min(8, pointer:getValue() + 1))
+    end
+
+    if (key == "x"  or key == "rshift" or key == "lshift")
+    then
+      pointer:setValue(2)
+      location = 0
+      return
+    end
+    
   end
 
+  -- Select
+  if (key == "return" or key == "z") then
+    if pointer:getValue() == 0 then
+      pointer:setValue(3)
+      location = 1
+    elseif pointer:getValue() == 1 then
+      pointer:setValue(5)
+      location = 2
+    elseif pointer:getValue() == 2 then
+      pointer:setValue(7)
+      location = 3
+    end
+  end
+
+  -- Return to main menu
   if 
-  key == "x" 
+  (key == "x" 
   or key == "rshift" 
-  or key == "lshift"
+  or key == "lshift") and
+  location == 0
   then
     switchScene(sceneTree.MMenu)
   end
@@ -66,29 +141,33 @@ end
 function menu:draw()
   
   love.graphics.draw(background)
-  love.graphics.draw(love.graphics.newImage("content/System/common/sheet.png"))
+  -- love.graphics.draw(love.graphics.newImage("content/System/common/sheet.png"))
 
   for i = 1, 3 do
     -- Frame
-    love.graphics.draw(slotTable[i].image, SlotPositions[i].X, SlotPositions[i].Y, 
-    0, 1, 1, slotTable[i].oX, slotTable[i].oY)
+    love.graphics.draw(frameContainer[i].image, LUT_Slots[i].X, LUT_Slots[i].Y, 
+    0, 1, 1, frameContainer[i].oX, frameContainer[i].oY)
 
     -- File indicator
     love.graphics.print((GLT.localizator.slotMenu[1].. i), 
-    SlotPositions[i].X - 90,
-    SlotPositions[i].Y - 12
+    LUT_Slots[i].X - 90,
+    LUT_Slots[i].Y - 12
     )
      -- Buttons
-    love.graphics.printf((GLT.localizator.slotMenu[2]), 
-    (SlotPositions[i].X - 10), 
-    (SlotPositions[i].Y + (i * (slotTable[i].image:getHeight() + 7))) - 11,
+    love.graphics.printf(
+    GLT.localizator.slotMenu[3], 
+    LUT_Slots[i].X - 10,
+    LUT_Slots[i].Y,
     100,
-    "right")
-    love.graphics.printf((GLT.localizator.slotMenu[3]), 
-    (SlotPositions[i].X - 10), 
-    (SlotPositions[i].Y + (i * (slotTable[i].image:getHeight() + 7))),
+    "right"
+    )
+    love.graphics.printf(
+    GLT.localizator.slotMenu[2], 
+    LUT_Slots[i].X - 10,
+    LUT_Slots[i].Y - 10,
     100,
-    "right")
+    "right"
+    )
   end
 
   pointer:draw()
