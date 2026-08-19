@@ -64,6 +64,11 @@ function menu:update(dt)
 end
 
 function menu.keypressed(key)
+   if (key == "x"  or key == "rshift" or key == "lshift") then
+    for i = 1, 3 do
+      deletionProtection[i].val = 0
+    end
+  end
 
   -- Move between options
   if location == 0 then
@@ -133,7 +138,6 @@ function menu.keypressed(key)
     end
     
   end
-
   -- Select
   if (key == "return" or key == "z") then
     if pointer:getValue() == 0 then
