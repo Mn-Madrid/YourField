@@ -7,4 +7,5 @@ _G.GLT =
   Animation = require("customLibraries.TreceAnims"),
   Tiles = require("customLibraries.TreceTiles"),
   localizator = require("myCoreGameUtils.localizator"),
+  sound = require("customLibraries.TreceSoundMger"),
 }

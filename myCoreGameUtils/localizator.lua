@@ -10,7 +10,8 @@ local loc =
   {
     "FILE ",
     "CONTINUE",
-    "DELETE"
+    "DELETE",
+    "PRESS X OR SHIFT TO RETURN TO\nTHE MAIN MENU"
   }
 }
 

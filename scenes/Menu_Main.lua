@@ -38,8 +38,10 @@ function MainMenu.keypressed(key)
   --Hovering
   if key == "up" and pointer:getValue() > 0 then
     pointer:setValue(math.max(0, pointer:getValue() - 1))
+    GLT.sound.UI[1]:play()
   elseif key == "down" and pointer:getValue() < 2 then
     pointer:setValue(math.min(2, pointer:getValue() + 1))
+    GLT.sound.UI[2]:play()
   end
 
   -- Selecting
@@ -47,8 +49,10 @@ function MainMenu.keypressed(key)
 
     if pointer:getValue() == 0 then
       switchScene(sceneTree.TField)
+      GLT.sound.UI[3]:clone():play()
     elseif pointer:getValue() == 1 then
       switchScene(sceneTree.SMenu)
+      GLT.sound.UI[3]:clone():play()
     elseif pointer:getValue() == 2 then
       love.event.quit()
     end

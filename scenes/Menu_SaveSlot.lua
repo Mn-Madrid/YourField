@@ -6,6 +6,7 @@ local pointer = GLT.Pointer.new(10, 10, 1)
 local LUT_Pointer
 local LUT_Slots
 local location = 0
+local fade = GLT.Fade.new("sceneIn", 0, 0, 0, 2)
 
 function menu:load()
   background = love.graphics.newImage("content/System/menu_slots/Mountain.png")
@@ -51,6 +52,7 @@ function menu:update(dt)
     end
   end
   pointer:update(dt)
+  fade:update(dt)
 end
 
 function menu.keypressed(key)
@@ -59,23 +61,28 @@ function menu.keypressed(key)
   if location == 0 then
     if key == "up" and pointer:getValue() > 0 then
       pointer:setValue(math.max(0, pointer:getValue() - 1))
+      GLT.sound.UI[1]:clone():play()
     end
     if (key == "down" and pointer:getValue() < 2) then
       pointer:setValue(math.min(2, pointer:getValue() + 1))
+      GLT.sound.UI[2]:clone():play()
     end
   elseif location == 1 then
 
     if key == "up" and pointer:getValue() > 3 then
       pointer:setValue(math.max(2, pointer:getValue() - 1))
+      GLT.sound.UI[1]:clone():play()
     end
     if (key == "down" and pointer:getValue() < 4) then
       pointer:setValue(math.min(4, pointer:getValue() + 1))
+      GLT.sound.UI[2]:clone():play()
     end
 
     if (key == "x"  or key == "rshift" or key == "lshift")
     then
       pointer:setValue(0)
       location = 0
+      GLT.sound.UI[1]:clone():play()
       return
     end
 
@@ -83,15 +90,18 @@ function menu.keypressed(key)
 
     if key == "up" and pointer:getValue() > 5 then
       pointer:setValue(math.max(5, pointer:getValue() - 1))
+      GLT.sound.UI[1]:clone():play()
     end
     if (key == "down" and pointer:getValue() < 6) then
       pointer:setValue(math.min(6, pointer:getValue() + 1))
+      GLT.sound.UI[2]:clone():play()
     end
 
     if (key == "x"  or key == "rshift" or key == "lshift")
     then
       pointer:setValue(1)
       location = 0
+      GLT.sound.UI[1]:clone():play()
       return
     end
 
@@ -99,15 +109,18 @@ function menu.keypressed(key)
 
     if key == "up" and pointer:getValue() > 7 then
       pointer:setValue(math.max(7, pointer:getValue() - 1))
+      GLT.sound.UI[1]:clone():play()
     end
     if (key == "down" and pointer:getValue() < 8) then
       pointer:setValue(math.min(8, pointer:getValue() + 1))
+      GLT.sound.UI[2]:clone():play()
     end
 
     if (key == "x"  or key == "rshift" or key == "lshift")
     then
       pointer:setValue(2)
       location = 0
+      GLT.sound.UI[1]:clone():play()
       return
     end
     
@@ -118,12 +131,15 @@ function menu.keypressed(key)
     if pointer:getValue() == 0 then
       pointer:setValue(3)
       location = 1
+      GLT.sound.UI[3]:clone():play()
     elseif pointer:getValue() == 1 then
       pointer:setValue(5)
       location = 2
+      GLT.sound.UI[3]:clone():play()
     elseif pointer:getValue() == 2 then
       pointer:setValue(7)
       location = 3
+      GLT.sound.UI[3]:clone():play()
     end
   end
 
@@ -135,6 +151,7 @@ function menu.keypressed(key)
   location == 0
   then
     switchScene(sceneTree.MMenu)
+    GLT.sound.UI[3]:clone():play()
   end
 end
 
@@ -169,8 +186,9 @@ function menu:draw()
     "right"
     )
   end
-
+  love.graphics.print(GLT.localizator.slotMenu[4], 4 * 8 , 20 * 8)
   pointer:draw()
+  fade:draw()
 end
 
 return menu
