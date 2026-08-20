@@ -9,6 +9,7 @@ local sound =
   },
   voice = 
   {
+    love.audio.newSource("audio/sdo_habla_saltarLin.ogg", "static"),
     love.audio.newSource("audio/sdo_habla_estandar.ogg", "static"),
   }
 }
