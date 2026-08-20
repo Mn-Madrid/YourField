@@ -7,7 +7,6 @@ local class_Textbox =
   -- Line related
   line_table = 
   {
-    "¡HOLA! ¿QUÉ OCURRE?",
     "PRIMER TEXTO", 
     "SEGUNDO TEXTO", 
     "TERCER TEXTO"
@@ -16,7 +15,7 @@ local class_Textbox =
   line_shown = "",
 
   -- Display
-  Display_isDisplaying = true,
+  Display_isDisplaying = false,
   Display_Position = 1,
   Display_Speed = 30,
   
@@ -29,11 +28,19 @@ local class_Textbox =
   INTERNAL_byteoffset = nil
 }
 
-function class_Textbox:setIn()
-  self.Display_isDisplaying = false
+function class_Textbox:setIn(tabla)
+  if tabla ~= nil then
+    self.line_table = tabla
+  end
+
+  self.line_idx = 1
+  self.INTERNAL_letterIdx = 0
+  self.INTERNAL_byteoffset = nil
+  self.Display_isDisplaying = true
 end
 
 function class_Textbox:setOut()
+  self.line_shown = ""
   self.Display_isDisplaying = false
 end
 
@@ -129,8 +136,14 @@ end
 local metaClass = {}
 metaClass.__index = class_Textbox
 
-function class_Textbox.new(lines, position, speed, initialDisplay)
-  
+function class_Textbox.new(lines, position, speed)
+  local instance = setmetatable({}, metaClass)
+
+  instance.line_table = lines
+  instance.Display_Position = position
+  instance.Display_Speed = speed
+
+  return instance
 end
 
 return class_Textbox
