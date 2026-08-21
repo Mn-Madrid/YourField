@@ -25,7 +25,7 @@ local class_Textbox =
 
   -- Display
   Display_isDisplaying = false,
-  Display_Position = 1,
+  Display_Position = 0,
   Display_Speed = 30,
   
   -- Internal
@@ -37,8 +37,9 @@ local class_Textbox =
   INTERNAL_byteoffset = nil
 }
 
-function class_Textbox:setIn(tabla, modo)
+function class_Textbox:setIn(tabla, modo, pos)
   self.MODE = modo
+  self.Display_Position = pos
   if tabla ~= nil then
     self.line_table = tabla
   end
@@ -208,11 +209,12 @@ end
 local metaClass = {}
 metaClass.__index = class_Textbox
 
-function class_Textbox.new(lines, position, speed)
+function class_Textbox.new(lines, position, mode, speed)
   local instance = setmetatable({}, metaClass)
 
-  instance.line_table = lines
   instance.Display_Position = position
+  instance.line_table = lines
+  instance.MODE = mode
   instance.Display_Speed = speed
 
   return instance
