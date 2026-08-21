@@ -7,6 +7,16 @@ end
 
 function FieldTest:update(dt)
   debugTB:update(dt)
+  if debugTB:OPTIOND() == 1 then
+    print("UP")
+    debugTB.OPTION = 0
+    debugTB:setOut()
+    debugTB:setIn({"WHATS UP BRO", "HOW IS IT HANGIN"}, 0)
+  elseif debugTB:OPTIOND() == 2 then
+    print("DOWN")
+    debugTB.OPTION = 0
+    debugTB:setOut()
+  end
 end
 
 function FieldTest.keypressed(key)
