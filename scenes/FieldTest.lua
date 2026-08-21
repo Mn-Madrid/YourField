@@ -1,6 +1,6 @@
 local FieldTest ={}
 
-local debugTB = GLT.textbox.new({"ALOYSSE", "ÑINGALING"}, 1, 1, 35)
+local debugTB = GLT.textbox.new({"ALOYSSE", "ÑINGALING"}, "B", 1, 35, "JOHAN")
 
 function FieldTest:load()
 end
@@ -8,12 +8,10 @@ end
 function FieldTest:update(dt)
   debugTB:update(dt)
   if debugTB:OPTIOND() == 1 then
-    print("UP")
     debugTB.OPTION = 0
     debugTB:setOut()
-    debugTB:setIn({"WHATS UP BRO", "HOW IS IT HANGIN"}, 0, 0)
+    debugTB:setIn({"WHATS UP BRO", "HOW IS IT HANGIN"}, "A", 0, "")
   elseif debugTB:OPTIOND() == 2 then
-    print("DOWN")
     debugTB.OPTION = 0
     debugTB:setOut()
   end
@@ -22,7 +20,7 @@ end
 function FieldTest.keypressed(key)
   debugTB:keypressed(key)
   if key == "a" then
-    debugTB:setIn({"AWAWA", "LOREM IPÑUM"}, 1, 1)
+    debugTB:setIn({"AWAWA", "LOREM IPÑUM"}, "B", 0)
   end
 end
 
